@@ -1,0 +1,28 @@
+fold0 held-out, 134 obs, refiner 0.5
+detector  score_thr   views     PQ   TP   FP  FN  pred_per_obs
+  allcat        0.5    orig 0.3902 1212 1146 609       10.4403
+   faint        0.5    orig 0.3748 1214 1300 607       11.2313
+  allcat        0.4 tta4>=2 0.3945 1266 1235 555       11.0896
+   faint        0.4 tta4>=2 0.3696 1246 1476 575       12.1119
+  allcat        0.3 tta4>=3 0.3994 1258 1161 563       10.7537
+   faint        0.3 tta4>=3 0.3734 1236 1399 585       11.7463
+  allcat        0.4 tta4>=3 0.4094 1232 1006 589        9.9403
+   faint        0.4 tta4>=3 0.3892 1216 1177 605       10.7015
+  allcat        0.5 tta4>=3 0.4181 1204  870 617        9.2313
+   faint        0.5 tta4>=3 0.4030 1192  980 629        9.7313
+  allcat        0.6 tta4>=3 0.4181 1154  766 667        8.5896
+   faint        0.6 tta4>=3 0.4098 1158  848 663        8.9701
+  allcat        0.7 tta4>=3 0.4269 1124  631 697        7.8582
+   faint        0.7 tta4>=3 0.4198 1116  668 705        7.9552
+
+recall by GT contrast quartile at (0.5, 0.5, ('tta4', 3)):
+                    mean  count
+cbin     detector              
+darkest  allcat    0.829    456
+         faint     0.842    456
+q2       allcat    0.738    454
+         faint     0.740    454
+q3       allcat    0.654    456
+         faint     0.640    456
+faintest allcat    0.424    455
+         faint     0.396    455

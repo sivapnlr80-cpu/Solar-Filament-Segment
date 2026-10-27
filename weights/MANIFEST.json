@@ -1,0 +1,47 @@
+{
+ "chunk_size": 50000000,
+ "files": {
+  "maskrcnn_allcat_fold0.pth": {
+   "size": 183926099,
+   "sha256": "34e2432f1267856eb91ba6b364429d39d2969ba2b4cefdea9c0273efdacbee7f",
+   "parts": [
+    {
+     "name": "maskrcnn_allcat_fold0.pth.part00",
+     "size": 50000000,
+     "sha256": "032058c35a607c76e7b21409fe8566877a9c8f254af9975544c7045d258c4a0e"
+    },
+    {
+     "name": "maskrcnn_allcat_fold0.pth.part01",
+     "size": 50000000,
+     "sha256": "60de73605c0188e18f8723dfe78d3879f9c670554fa2579b458e3c52dc11f198"
+    },
+    {
+     "name": "maskrcnn_allcat_fold0.pth.part02",
+     "size": 50000000,
+     "sha256": "9ef6e66e6c8aadf8c43cf7d2b6aeb2f8e55d282bc173373c22566bd371e0a2c4"
+    },
+    {
+     "name": "maskrcnn_allcat_fold0.pth.part03",
+     "size": 33926099,
+     "sha256": "32a4d8a6706429daec2db7f945cf80fa51c66bb5d3f5c5460810c5067c62f9a4"
+    }
+   ]
+  },
+  "refiner.pth": {
+   "size": 57052179,
+   "sha256": "d46e0cbabf7af8f0eb84e5d30c5ba5344ad29f70ad6cf04af2daed28e729371c",
+   "parts": [
+    {
+     "name": "refiner.pth.part00",
+     "size": 50000000,
+     "sha256": "d5eb6148fe8b1a0a101ad810705662bf01eaab5586657ba089455075edd1d2fd"
+    },
+    {
+     "name": "refiner.pth.part01",
+     "size": 7052179,
+     "sha256": "c8b7c3860b5549096570d7e9f0b276b4f17a09b804a899055ab77187c6028987"
+    }
+   ]
+  }
+ }
+}

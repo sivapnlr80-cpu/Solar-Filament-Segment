@@ -13,9 +13,11 @@ jupyter notebook notebooks/pipeline.ipynb   # runs the whole pipeline and writes
 ```
 
 The notebook needs (1) the competition's `test_images/` folder under `./data` (or `/kaggle/input`) and
-(2) two checkpoints, which it downloads from this repository's release page and verifies by SHA-256:
-`maskrcnn_allcat_fold0.pth` (Mask R-CNN) and `refiner.pth` (crop U-Net). It takes about 10 minutes on one T4 GPU
-for the 180 test images. No other file is required.
+(2) two checkpoints that are **stored in this repository** under `weights/`: `maskrcnn_allcat_fold0.pth` (Mask R-CNN) and
+`refiner.pth` (crop U-Net). GitHub rejects files over 100 MB, so each checkpoint is kept as parts of at most 50 MB
+(`*.pth.partNN`); `src/filament/weights.py` concatenates them and verifies every part and the final file by SHA-256
+(`weights/MANIFEST.json`). Nothing is downloaded and nothing is re-trained. It takes about 10 minutes on one T4 GPU
+for the 180 test images. No other file is required. (The same two files are also attached to release `v1.0`.)
 
 Reproduction check (Kaggle T4, same checkpoints): the code in `src/filament/` reproduces the submitted
 `submission.csv` - 1294 of 1296 rows are byte-identical (174 of 176 non-empty images identical; the two differing

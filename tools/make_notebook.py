@@ -24,11 +24,11 @@ This notebook reproduces the submitted predictions (`submission.csv`) end to end
 4. **cross-view agreement**: cluster masks across views (IoU > 0.5), keep clusters seen in >= 3 of 4 views, pixel-wise majority vote
 5. **panoptic painting** in descending score order (no overlaps), drop masks < 200 px, run-length encode
 
-Only the competition's `test_images` and the two released checkpoints are needed. Training code is in `training/`, the
+Only the competition's `test_images` and the two checkpoints stored in `weights/` are needed. Training code is in `training/`, the
 experiments behind every table of the report are in `experiments/` (results in `results/`).
 """),
     code("""
-import sys, hashlib, urllib.request
+import sys
 from pathlib import Path
 
 REPO = Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
@@ -40,6 +40,7 @@ import torch
 import pycocotools.mask as mask_util
 
 from filament import CFG, load_maskrcnn, load_refiner, predict_image, run_directory
+from filament.weights import assemble
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("device:", device, "| torch", torch.__version__)
@@ -49,18 +50,11 @@ print("pipeline configuration:", CFG)
 ## 1. Data and weights
 
 `find_dir` looks for the competition's `test_images` folder under `/kaggle/input` or `./data`.
-The two checkpoints are downloaded once from the repository's release page (see `WEIGHTS` below); set
-`WEIGHTS_DIR` to a local folder to skip the download.
+The two checkpoints are stored in this repository (`weights/`) as parts of at most 50 MB, because GitHub rejects larger
+files. `assemble` concatenates the parts and verifies every part and the final file by SHA-256 (`weights/MANIFEST.json`);
+the assembled files are written to `weights/assembled/`. No download and no re-training are needed.
 """),
     code("""
-WEIGHTS_DIR = REPO / "weights"
-RELEASE_URL = "https://github.com/sivapnlr80-cpu/Solar-Filament-Segment/releases/download/v1.0"
-WEIGHTS = {   # file name -> sha256
-    "maskrcnn_allcat_fold0.pth": "34e2432f1267856eb91ba6b364429d39d2969ba2b4cefdea9c0273efdacbee7f",
-    "refiner.pth": "d46e0cbabf7af8f0eb84e5d30c5ba5344ad29f70ad6cf04af2daed28e729371c",
-}
-
-
 def find_dir(name, roots=("/kaggle/input", "data", "../data")):
     for root in map(Path, roots):
         if root.exists():
@@ -70,19 +64,9 @@ def find_dir(name, roots=("/kaggle/input", "data", "../data")):
     raise FileNotFoundError(f"{name} not found; put the competition data under ./data")
 
 
-def fetch(name, sha256):
-    path = WEIGHTS_DIR / name
-    if not path.exists():
-        WEIGHTS_DIR.mkdir(exist_ok=True)
-        print("downloading", name)
-        urllib.request.urlretrieve(f"{RELEASE_URL}/{name}", path)
-    digest = hashlib.sha256(path.read_bytes()).hexdigest()
-    assert digest == sha256, f"{name}: checksum mismatch ({digest})"
-    return path
-
-
 TEST_DIR = find_dir("test_images")
-detector_path, refiner_path = (fetch(n, h) for n, h in WEIGHTS.items())
+detector_path = assemble("maskrcnn_allcat_fold0.pth")
+refiner_path = assemble("refiner.pth")
 print("test images:", TEST_DIR, "->", len(list(TEST_DIR.iterdir())), "files")
 """),
     code("""
